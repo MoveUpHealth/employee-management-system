@@ -94,10 +94,62 @@ function runApp() {
       });
   }
 
+  function chooseView() {
+    inquirer
+      .prompt({
+        name: "viewing",
+        type: "list",
+        message: "What would you like to view?",
+        choices: [
+          "View departments",
+          "View roles",
+          "View employees",
+          "Go to Main Menu"
+          
+        ]
+      })
+      .then(function(answer) {
+        switch (answer.viewing) {
+        case "View departments":
+          viewDepartment();
+          break;
+  
+        case "View roles":
+          viewRole();
+          break;
+  
+        case "View employees":
+          viewEmployee();
+          break;
+        
+        case "Go to Main Menu":
+          runApp();
+          break;
+
+        }
+      });
+  }
+
   function add() {
       console.log('You are adding something...')
       chooseAdd()
       
+  }
+
+  function view() {
+    console.log('You are viewing something...')
+    chooseView()
+    
+  }
+  
+  function update() {
+    console.log('You are updating something...')
+    updateRole()
+  }
+
+  function exit() {
+    console.log('Thank you for using the App. Have a good day!')
+    connection.end()
   }
 
   function addDepartment(){
@@ -112,24 +164,16 @@ function runApp() {
     console.log('You are adding an employee...')
   }
 
-
-  function view() {
-    console.log('You are viewing something...')
-    runApp()
-    
+  function viewDepartment(){
+    console.log('You are viewing a department...')
   }
 
-  function update() {
-    console.log('You are updating something...')
-    runApp()
+  function viewRole(){
+    console.log('You are viewing a role...')
   }
 
-  function exit() {
-    console.log('Thank you for using the App. Have a good day!')
-    connection.end()
-  }
 
-  function employeeSearch() {
+  function viewEmployee() {
     inquirer
     .prompt({
       name: "employee",
@@ -137,7 +181,7 @@ function runApp() {
       message: "What is the employee's last name?"
     })
     .then(function(answer) {
-      var query = "SELECT position, song, year FROM top5000 WHERE ?";
+      var query = "SELECT first_name, last_name, id FROM employee WHERE ?";
       connection.query(query, { last_name: answer.employee }, function(err, res) {
         for (var i = 0; i < res.length; i++) {
           console.log("First Name: " + res[i].first_name + " || Last Name: " + res[i].last_name + " || ID: " + res[i].id);
@@ -147,54 +191,7 @@ function runApp() {
     });
   }
 
-// const inquirer = require("inquirer");
+  function updateRole(){
+      console.log('You are updating a role')
+  }
 
-// const collectEmployees = async (inputs = []) => {  
-//     const prompts = [
-//         { 
-//             type: "list",
-//             message: "Choose the employee's role:",
-//             choices: ['Engineer', 'Intern'],
-//             name: "role",
-//             },
-//         { 
-//             type: "input",
-//             message: "Please enter the name of the employee:",
-//             name: "employeeName",
-//             },
-//             {
-//             type: "input",
-//             message: "Employees's ID number:",
-//             name: "employeeId",
-//             },
-//             {
-//             type: "input",
-//             message: "Employee's emial:",
-//             name: "employeeEmail",
-//             },
-//             {
-//             type: "input",
-//             message: "Employee's github account:",
-//             name: "github",
-//             when: (answers) => answers.role === 'Engineer'
-//             },
-//             {
-//             type: "input",
-//             message: "Intern's school:",
-//             name: "school",
-//             when: (answers) => answers.role === 'Intern'
-//             },
-//             {
-//             type: 'confirm',
-//             name: 'again',
-//             message: 'Enter another employee? ',
-//             default: true
-//         }
-//         ]
-        
-//         const {again, ...answers} = await inquirer.prompt(prompts)
-//         const newInputs = [...inputs, answers]
-//         return again ? collectEmployees(newInputs) : newInputs
-//     }
-
-// collectEmployees()
