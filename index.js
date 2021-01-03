@@ -153,15 +153,126 @@ function runApp() {
   }
 
   function addDepartment(){
-    console.log('You are adding a department...')
+    inquirer
+    .prompt([
+    {  
+        name: "department",
+        type: "input",
+        message: "What department would you like to add?"
+    },
+    {
+        name: "id_department",
+        type: "input",
+        message: "What is the ID for this department?"
+    }
+    
+    ])
+    .then(function(answer) {
+      var query = connection.query(
+          "INSERT INTO department SET ?",
+          { id: answer.id_department,
+            name: answer.department }, 
+        (err) => {
+         if (err) throw err
+         console.log('Department saved successfully');
+         runApp();
+        }
+        )
+        console.log(query.sql)
+        
+      });
   }
 
   function addRole(){
-    console.log('You are adding a role...')
+    inquirer
+    .prompt([
+    {  
+        name: "role",
+        type: "input",
+        message: "What role would you like to add?"
+    },
+    {  
+        name: "role_id",
+        type: "input",
+        message: "What role would you like to add?"
+    },
+    {  
+        name: "role_salary",
+        type: "input",
+        message: "What role would you like to add?"
+    },
+    {
+        name: "dep_id",
+        type: "input",
+        message: "What is the ID for the department that this role belongs to?"
+    }
+    
+    ])
+    .then(function(answer) {
+      var query = connection.query(
+          "INSERT INTO role SET ?",
+          { id: answer.role_id,
+            title: answer.role,
+            salary: answer.role_salary,
+            department_id: answer.dep_id }, 
+        (err) => {
+         if (err) throw err
+         console.log('Role saved successfully');
+         runApp();
+        }
+        )
+        console.log(query.sql)
+        
+      });
   }
 
   function addEmployee(){
-    console.log('You are adding an employee...')
+    inquirer
+    .prompt([
+    {  
+        name: "first",
+        type: "input",
+        message: "What is the employee's first name?"
+    },
+    {  
+        name: "last",
+        type: "input",
+        message: "What is the employee's last name?"
+    },
+    {  
+        name: "emp_id",
+        type: "input",
+        message: "What is the employee's ID?"
+    },
+    {
+        name: "emp_role_id",
+        type: "input",
+        message: "What is the ID for this employee's role?"
+    },
+    {  
+        name: "manager_id",
+        type: "input",
+        message: "What is the ID for this employee's manager? (Enter 0 if there is no manager)"
+    },
+    
+    ])
+    .then(function(answer) {
+      var query = connection.query(
+          "INSERT INTO employee SET ?",
+          { id: answer.emp_id,
+            first_name: answer.first,
+            last_name: answer.last,
+            role_id: answer.emp_role_id,
+            manager_id: answer.manager_id }, 
+        (err) => {
+         if (err) throw err
+         console.log('Employee saved successfully');
+         runApp();
+        }
+        )
+        console.log(query.sql)
+        
+      });
   }
 
   function viewDepartment(){
