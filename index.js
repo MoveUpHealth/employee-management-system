@@ -276,11 +276,39 @@ function runApp() {
   }
 
   function viewDepartment(){
-    console.log('You are viewing a department...')
+    inquirer
+    .prompt({
+      name: "dep_name",
+      type: "input",
+      message: "What department would you like to view?"
+    })
+    .then(function(answer) {
+      var query = "SELECT id, name FROM department WHERE ?";
+      connection.query(query, { name: answer.dep_name }, function(err, res) {
+        for (var i = 0; i < res.length; i++) {
+          console.log("Department: " + res[i].name + " || Department ID: " + res[i].id);
+        }
+        runApp();
+      });
+    });
   }
 
   function viewRole(){
-    console.log('You are viewing a role...')
+    inquirer
+    .prompt({
+      name: "role_title",
+      type: "input",
+      message: "What role do you want to view?"
+    })
+    .then(function(answer) {
+      var query = "SELECT id, title, salary, department_id FROM employee_role WHERE ?";
+      connection.query(query, { title: answer.role_title }, function(err, res) {
+        for (var i = 0; i < res.length; i++) {
+          console.log("Role Title: " + res[i].title + " || Role ID: " + res[i].id + " || Salary: " + res[i].salary + " || Department ID: " + res[i].department_id);
+        }
+        runApp();
+      });
+    });
   }
 
 
