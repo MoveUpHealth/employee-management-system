@@ -315,10 +315,10 @@ function viewEmployee() {
         message: "What is the employee's last name?"
     })
     .then(function(answer) {
-        var query = "SELECT first_name, last_name, id FROM employee WHERE ?";
+        var query = "SELECT first_name, last_name, id, role_id FROM employee WHERE ?";
         connection.query(query, { last_name: answer.employee }, function(err, res) {
         for (var i = 0; i < res.length; i++) {
-            console.log("First Name: " + res[i].first_name + " || Last Name: " + res[i].last_name + " || ID: " + res[i].id);
+            console.log("First Name: " + res[i].first_name + " || Last Name: " + res[i].last_name + " || ID: " + res[i].id + " || Role ID: " + res[i].role_id);
         }
         runApp();
         });
